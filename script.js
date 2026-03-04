@@ -89,7 +89,7 @@ function createForm() {
   formBtnClear.className = 'btn form-btn btn-danger mb-2 form-btn-clear';
   formBtnWrapper.style.width = '100%';
   formBtnClear.textContent = 'Очистить';
-  formBtn.textContent = 'Отправить';
+  formBtn.textContent = 'Скопировать и отправить';
 
   formBtnWrapper.append(formBtnClear, formBtn);
   form.append(/*formInpChecksOAS.inputBox, formInpTurnoverOAS.inputBox, formInpChecks.inputBox,*/ formInpTurnover.inputBox, formInpAcessories.inputBox, formInpServices.inputBox, formInstallingApps.inputBox, formBtnWrapper);
