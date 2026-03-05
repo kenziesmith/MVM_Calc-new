@@ -24,7 +24,7 @@ function createFormInput(name) {
   // очищаем поле при условии, что юзер подтвердит удаление
   inputBtn.addEventListener('click', (e) => {
     e.preventDefault();
-    input.value = confirm('Очистить поле?') ? '' : input.value;
+    input.value = '';
   });
 
   // добавим все элементы инпута в специальный контейнер
@@ -62,15 +62,20 @@ function createForm() {
   const formInpAcessories = createFormInput('Аксы');
   const formInpServices = createFormInput('Услуги');
   const formInstallingApps = createFormInput('Установка МПК');
+  const formComment = createFormInput('Комментарий...');
+
+  // для formComment поменять тип ввода на текст
+  formComment.input.typе = 'text';
 
   // тесты
   // formInpChecksOAS.input.value = '4'
   // formInpTurnoverOAS.input.value = '599+419'
   // formInpChecks.input.value = '10'
-  // formInpTurnover.input.value = '201911'
-  // formInpAcessories.input.value = '419+1274+4395+799+8000'
-  // formInpServices.input.value = '599+999+1799+1990+4999'
-  // formInstallingApps.input.value = '2'
+  formInpTurnover.input.value = '201911'
+  formInpAcessories.input.value = '419+1274+4395+799+8000'
+  formInpServices.input.value = '599+999+1799+1990+4999'
+  formInstallingApps.input.value = '2'
+  formComment.input.value = 'БЛА БЛА БЛА БЛА'
 
   const formBtnWrapper = document.createElement('div');
   const formBtn = document.createElement('button');
@@ -82,7 +87,8 @@ function createForm() {
   formInpTurnover.input.placeholder = 'Общий оборот...';
   formInpAcessories.input.placeholder = '999+999+999...';
   formInpServices.input.placeholder = '999+999+999...';
-  formInstallingApps.input.placeholder = 'Кол-во установленных приложений...'
+  formInstallingApps.input.placeholder = 'Кол-во установленных приложений...';
+  formComment.input.placeholder = 'Указать комментарий...';
 
   form.className = 'input-group mb-3 mt-4';
   formBtn.className = 'btn form-btn btn-success';
@@ -92,7 +98,7 @@ function createForm() {
   formBtn.textContent = 'Скопировать и отправить';
 
   formBtnWrapper.append(formBtnClear, formBtn);
-  form.append(/*formInpChecksOAS.inputBox, formInpTurnoverOAS.inputBox, formInpChecks.inputBox,*/ formInpTurnover.inputBox, formInpAcessories.inputBox, formInpServices.inputBox, formInstallingApps.inputBox, formBtnWrapper);
+  form.append(/*formInpChecksOAS.inputBox, formInpTurnoverOAS.inputBox, formInpChecks.inputBox,*/ formInpTurnover.inputBox, formInpAcessories.inputBox, formInpServices.inputBox, formInstallingApps.inputBox, formComment.inputBox, formBtnWrapper);
 
   return {
     form,
@@ -103,6 +109,7 @@ function createForm() {
     formInpAcessories,
     formInpServices,
     formInstallingApps,
+    formComment,
     formBtn,
     formBtnClear,
   }
@@ -146,6 +153,7 @@ const turnover = appForm.formInpTurnover;
 const acessories = appForm.formInpAcessories;
 const services = appForm.formInpServices;
 const installinggApps = appForm.formInstallingApps;
+const comment = appForm.formComment;
 const nFilter = appForm.formInpNFilter;
 const battery = appForm.formInpBattery;
 
@@ -163,7 +171,9 @@ appForm.formBtn.addEventListener('click', (e) => {
 `Оборот: ${turnover.format()}
 Аксы: ${acessories.format()} (${calculatePercentage(turnover.calculate(), acessories.calculate()).toFixed(2)}%)
 Услуги: ${services.format()} (${calculatePercentage(turnover.calculate(), services.calculate()).toFixed(2)}%)
-МПК: ${installinggApps.format()}`;
+МПК: ${installinggApps.format()}
+
+${comment.input.value}`;
 
   // const result = showResult(resultInfo);
   // appContainer.append(result.resultBox);
@@ -173,7 +183,9 @@ appForm.formBtn.addEventListener('click', (e) => {
 Оборот: ${turnover.format()}
 Аксы: ${acessories.format()} (${calculatePercentage(turnover.calculate(), acessories.calculate()).toFixed(2)}%)
 Услуги: ${services.format()} (${calculatePercentage(turnover.calculate(), services.calculate()).toFixed(2)}%)
-МПК: ${installinggApps.format()}`);
+МПК: ${installinggApps.format()}
+
+${comment.input.value}`);
   }, function (err) {
     alert('Произошла ошибка при копировании текста: ', err);
   });
@@ -184,10 +196,8 @@ appForm.formBtn.addEventListener('click', (e) => {
   console.log(resultInfo);
 });
 
-// при нажатии на "очистить" очищаем поля при подтверждении юзера
+// при нажатии на "очистить" очищаем поля
 appForm.formBtnClear.addEventListener('click', (e) => {
   e.preventDefault();
-
-  if (!confirm('Удалить все?')) return;
-  clearInputs([/*checks,*/ installinggApps, turnover, acessories, services]);
+  clearInputs([/*checks,*/ turnover, acessories, services, installinggApps, comment]);
 });
