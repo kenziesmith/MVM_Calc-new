@@ -109,7 +109,7 @@ function createForm() {
   const formInpAcessories = createFormInput('Аксы');
   const formInpServices = createFormInput('Услуги');
   const formInstallingApps = createFormInput('Установка МПК');
-  const formComment = createFormInput('Комментарий...');
+  const formComment = createFormInput('Комментарий... (необязательно)');
 
   // для formComment поменять тип ввода на текст
   formComment.input.type = 'text'; 
@@ -226,7 +226,7 @@ ${comment.input.value}`;
   try {
     // Ждем успешного копирования
     await navigator.clipboard.writeText(resultInfo);
-    showToast('🚀 Данные скопированы в буфер!');
+    showToast('Данные скопированы в буфер!');
     
     // Только после копирования открываем телеграм
     setTimeout(() => {
