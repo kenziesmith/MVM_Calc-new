@@ -1,25 +1,34 @@
 /* by kenzie */
 
 
-// создаем уведомление при копировании
 const style = document.createElement('style');
 style.textContent = `
   .toast-notification {
     position: fixed;
-    bottom: 20px;
-    right: 20px;
+    top: 20px;               /* Изменили с bottom на top */
+    left: 50%;               /* Центрируем по горизонтали */
+    transform: translateX(-50%); /* Точное выравнивание по центру */
     background-color: #28a745;
     color: white;
     padding: 12px 24px;
-    border-radius: 8px;
+    border-radius: 50px;     /* Сделаем более округлым, как "баббл" */
     z-index: 10000;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     font-family: sans-serif;
-    animation: slideIn 0.3s ease-out;
+    font-size: 14px;
+    white-space: nowrap;
+    animation: slideDown 0.4s cubic-bezier(0.18, 0.89, 0.32, 1.28); /* Эффект "прыжка" */
   }
-  @keyframes slideIn {
-    from { transform: translateX(100%); opacity: 0; }
-    to { transform: translateX(0); opacity: 1; }
+
+  @keyframes slideDown {
+    from { 
+      transform: translate(-50%, -100%); /* Вылетает из-за края экрана */
+      opacity: 0; 
+    }
+    to { 
+      transform: translate(-50%, 0); 
+      opacity: 1; 
+    }
   }
 `;
 document.head.append(style);
