@@ -119,11 +119,11 @@ function createForm() {
   // formInpChecksOAS.input.value = '4'
   // formInpTurnoverOAS.input.value = '599+419'
   // formInpChecks.input.value = '10'
-  formInpTurnover.input.value = '201911'
-  formInpAcessories.input.value = '419+1274+4395+799+8000'
-  formInpServices.input.value = '599+999+1799+1990+4999'
-  formInstallingApps.input.value = '2'
-  formComment.input.value = 'БЛА БЛА БЛА БЛА'
+  // formInpTurnover.input.value = '201911'
+  // formInpAcessories.input.value = '419+1274+4395+799+8000'
+  // formInpServices.input.value = '599+999+1799+1990+4999'
+  // formInstallingApps.input.value = '2'
+  // formComment.input.value = 'БЛА БЛА БЛА БЛА'
 
   const formBtnWrapper = document.createElement('div');
   const formBtn = document.createElement('button');
