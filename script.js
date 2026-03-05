@@ -1,6 +1,44 @@
 /* by kenzie */
 
 
+// создаем уведомление при копировании
+const style = document.createElement('style');
+style.textContent = `
+  .toast-notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #28a745;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    z-index: 10000;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    font-family: sans-serif;
+    animation: slideIn 0.3s ease-out;
+  }
+  @keyframes slideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+`;
+document.head.append(style);
+
+//функция для показа уведомления о копировании
+function showToast(message) {
+  const toast = document.createElement('div');
+  toast.className = 'toast-notification';
+  toast.textContent = message;
+  document.body.append(toast);
+
+  // Удаляем через 3 секунды
+  setTimeout(() => {
+    toast.style.opacity = '0';
+    toast.style.transition = 'opacity 0.5s ease';
+    setTimeout(() => toast.remove(), 500);
+  }, 3000);
+}
+
 // функция генерирует поле для ввода
 function createFormInput(name) {
   const inputBox = document.createElement('div');
@@ -165,7 +203,7 @@ appContainer.append(appForm.form);
 app.append(appContainer);
 
 // при нажатии на "применить" выполняется вычисление, форматирование и копирование данных в буфер обмена
-appForm.formBtn.addEventListener('click', (e) => {
+appForm.formBtn.addEventListener('click', async (e) => {
   e.preventDefault();
 
   const resultInfo = 
@@ -176,20 +214,27 @@ appForm.formBtn.addEventListener('click', (e) => {
 
 ${comment.input.value}`;
 
+  try {
+    // Ждем успешного копирования
+    await navigator.clipboard.writeText(resultInfo);
+    showToast('🚀 Данные скопированы в буфер!');
+    
+    // Только после копирования открываем телеграм
+    setTimeout(() => {
+      navigator.clipboard.writeText(resultInfo).then(function () {
+
+  }, function (err) {});
+    }, 100); // Небольшая задержка, чтобы браузер не "запутался"
+    
+  } catch (err) {
+    console.error('Ошибка:', err);
+    showToast('❌ Ошибка копирования');
+  }
+
   // const result = showResult(resultInfo);
   // appContainer.append(result.resultBox);
 
-  navigator.clipboard.writeText(resultInfo).then(function () {
-    alert(`Данные успешно скопированы в буфер обмена!
-Оборот: ${turnover.format()}
-Аксы: ${acessories.format()} (${calculatePercentage(turnover.calculate(), acessories.calculate()).toFixed(2)}%)
-Услуги: ${services.format()} (${calculatePercentage(turnover.calculate(), services.calculate()).toFixed(2)}%)
-МПК: ${installinggApps.format()}
 
-${comment.input.value}`);
-  }, function (err) {
-    alert('Произошла ошибка при копировании текста: ', err);
-  });
 
 
     // Формируем объект с данными для шаринга
@@ -208,7 +253,6 @@ ${comment.input.value}`);
     // используем ваш старый метод с Telegram или просто копируем
     navigator.clipboard.writeText(resultInfo);
     alert('Ваш браузер не поддерживает функцию "Поделиться". Данные скопированы в буфер обмена.');
-    window.open('https://t.me' + encodeURIComponent(resultInfo), '_blank');
   }
   
   console.log(resultInfo);
