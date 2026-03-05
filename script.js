@@ -65,7 +65,7 @@ function createForm() {
   const formComment = createFormInput('Комментарий...');
 
   // для formComment поменять тип ввода на текст
-  formComment.inputinput.setAttribute('inputmode', 'text');
+  formComment.input.setAttribute('inputmode', 'text');
 
   // тесты
   // formInpChecksOAS.input.value = '4'
