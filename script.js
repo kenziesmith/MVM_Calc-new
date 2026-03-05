@@ -192,7 +192,24 @@ ${comment.input.value}`);
   });
 
 
-  window.open('https://t.me/share/url?url=' + encodeURIComponent(resultInfo), '_blank');
+    // Формируем объект с данными для шаринга
+  const shareData = {
+    title: 'Отчет продаж',
+    text: resultInfo
+  };
+
+  // Проверяем, поддерживает ли браузер Web Share API
+  if (navigator.share) {
+    navigator.share(shareData)
+      .then(() => console.log('Успешно отправлено'))
+      .catch((err) => console.log('Ошибка отправки:', err));
+  } else {
+    // Если браузер не поддерживает Share API (например, на ПК), 
+    // используем ваш старый метод с Telegram или просто копируем
+    navigator.clipboard.writeText(resultInfo);
+    alert('Ваш браузер не поддерживает функцию "Поделиться". Данные скопированы в буфер обмена.');
+    window.open('https://t.me' + encodeURIComponent(resultInfo), '_blank');
+  }
   
   console.log(resultInfo);
 });
